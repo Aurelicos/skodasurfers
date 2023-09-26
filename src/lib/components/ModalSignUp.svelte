@@ -3,6 +3,7 @@
     import cross from "$lib/icons/cross.svg";
     import { onMount } from "svelte";
     import { createEventDispatcher } from "svelte";
+    import toast from "svelte-french-toast";
 
     const dispatch = createEventDispatcher();
 
@@ -17,8 +18,6 @@
     let repeatPassword: string;
     let errorMessage: string;
 
-    const goto = (url: string) => (window.location.href = url);
-
     async function handleSubmit(this: HTMLFormElement, event: Event) {
         event.preventDefault();
 
@@ -27,31 +26,48 @@
         const formData = new FormData(this);
         const email = formData.get("email")?.toString() ?? "";
         const password = formData.get("password")?.toString() ?? "";
+        if (!email || !password) {
+            errorMessage = "";
+            toast.error("Email or password are missing!");
+            return;
+        }
         if (password !== repeatPassword) {
             errorMessage = "";
+            toast.error("Passwords do not match!");
             return;
         }
-        try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            const user = userCredential.user;
-            formData.set("token", await user.getIdToken());
-            const response = await fetch(`${this.action}?/signup`, {
-                method: "POST",
-                body: formData,
-            });
-            const result = await response.json();
-            if (result.type === "success") {
-                return handleClose();
+        toast.promise(
+            new Promise(async (resolve, reject) => {
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
+                    );
+                    const user = userCredential.user;
+                    formData.set("token", await user.getIdToken());
+                    const response = await fetch(`${this.action}?/signup`, {
+                        method: "POST",
+                        body: formData,
+                    });
+                    const result = await response.json();
+                    if (result.type === "success") {
+                        resolve("User registered!");
+                        return handleClose();
+                    }
+                    reject("Something went wrong!");
+                    return;
+                } catch (error: any) {
+                    reject(error.code.split("/")[1]);
+                    return;
+                }
+            }),
+            {
+                loading: "Registering user...",
+                success: "User registered!",
+                error: (error) => `Register failed: ${error}`,
             }
-            return;
-        } catch (error: any) {
-            errorMessage = error.message;
-            return;
-        }
+        );
     }
 
     $: password == repeatPassword
