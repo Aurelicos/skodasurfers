@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "skoda-surfers",
+    "private_key_id": "cbd0fe292253d87eb5e34d4967c075900c54cc7b",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCn/P3Ou/GCdkpe\nnbE4XOWBkfDmzatZIeS5padcsl84t2mzmrM2uCGeOKjE4MYbjt5KW2HRChBwiQdB\ny1SBwuNGwPiiiJpxGuR0hS/w+z/yd0WvIThnyVmLX5gOfCen3Andun86ep2Xkmtc\nhGYbtkreuM6osfvUbsPWGmejTfGh0hH6u1dOWroP2cCVCiF8xFw+ExMIJyKUs9fe\nTl18NudKvy3C0cQVz8v/ESEDpQVpzDTtkpIPHX0iezccl22GMl4EwurEsVUD8Ayh\nxUlqxf/y9IE+15xU4BnRkWf0yqwq9U7WXh70HdeMvISXy7QHAThxmt1Volt2ZU2y\ngDdiKRGLAgMBAAECggEAUuahAmLxnmZt8R91E9GUWUsCTYR16Pi2/X7ohvBn2X96\nJG5Vvs1DmedwMiiS24q33I4YSabj0gVtlWSYgakBrCsTCHLNdL/GulH4BL6ZIjkG\nJJUKVv2guQ0l5xASKd6G5+tfWiakmuZhITkdgtOFQ0CEi++5zW4UKxbAynBurGJI\nLH77tZ1o0zLp3JuZ9LITVeAdZ0ARkzicpQb037i0Z3n3hNoRo1UBq2qjqlSdAff0\ni5qAN7yNySt/nTD+xmCnP3gEfPsRLiSAHGNoc799t33Q8/g0bHjJV1kXleEIuu4t\nTICAOS3vkfkHFWsGTsMn65lA9gvKOJGIbPOHc+pdkQKBgQDYS99W0V6XpVg99n9U\ngJJSnQg1LGt2yAfj15YysrTKJW4C5QHA27/3wC9m+kvcvsibZRjMhhEFK4rbehMr\n/AqeLu3z2IjRL4aJVRIs9/y3YcfumJRW/GK1TQHhBbnN66AUnGd1R7fZ91zK/BTy\nRnzZMBek1q7iWlKarDBnZRNFFQKBgQDG0woZfwSp7EXqKBWh6DuJLaPkl2lYJ7aT\nprFgYog9R+eJUolO7zl41c9q8CjE8fXKjH0IwEa60f7WQTtCqyrCms37xk9xD4bk\nkqjo0KG5/K9Q49Xge3NTY0fmr80TaFPZLZ35DTfmsV+3d7Kstu2H3y2abkqGSzwm\n/1Cd21nkHwKBgQCW/RfyLgOfTo/z6T/niD0cqHwTSmfWKjq/xT4XNALaXhiWsrBv\npbczRpiQhUcx2IiHWaJfG3OELWooXeZGPRJYbCA1qcGQbWG4OoeOlqp2hS6hEyfy\nNQreztvx7iJPah18ZdYe26qu4GuJU0F4Ataiclz+99JrNmwVhv/fHYK/JQKBgHPG\nW/Ewx3RzAtsw8DfRVSmyC+eGS29r4KLlxA/OEGsuvaJ3D0GJh7vXNOqeYf8crfV+\nDSjVXdpXgb8dSPavWTzsi9l6RrQdSH088WJwalw0yZmeseH/wM3j1/B6mj4c2AZ0\ny7JEgjKxQn1BFCgCdRpTWOi+JGNC2AoVTco9+oAdAoGAfl5yDEOCX41cPhlMkdbD\nGAriJ3f7Jwhgnri/8yjrrKd8yP4pAWHMiDOkL5KLpj3e028DVRDHdNwQe6hwQMce\naN072v+W6T4ADJxazUVl4YGAv6kqtghZv4IG9tLRzaHM9G9Fa9vssbfYf5rf3CT6\nB+5XicLe7v2fC/NHXPGQEBY=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-t8b7m@skoda-surfers.iam.gserviceaccount.com",
+    "client_id": "103671223343459549382",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-t8b7m%40skoda-surfers.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+}
