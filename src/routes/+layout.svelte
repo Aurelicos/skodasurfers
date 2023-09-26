@@ -7,11 +7,14 @@
   import ModalSignUp from "$lib/components/ModalSignUp.svelte";
 
   onMount(initFirebase);
+  import { Toaster } from 'svelte-french-toast';
 
   let closed = true;
 
   let closed2 = true;
 </script>
+
+<Toaster />
 
 <ModalLogin {closed} on:close={() => (closed = true)} />
 <ModalSignUp closed={closed2} on:close={() => (closed2 = true)} />
