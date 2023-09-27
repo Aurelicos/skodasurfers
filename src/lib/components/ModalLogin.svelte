@@ -15,11 +15,18 @@
 
     export let closed: boolean;
 
+    let closedSignUp:boolean = true;
+
     const dispatch = createEventDispatcher();
 
     function handleClose() {
         closed = true;
         dispatch("close", closed);
+    }
+
+    function handleRegister():void {
+        closedSignUp = false;
+        dispatch("register", closedSignUp)
     }
 
     const errorMessage = writable<string | null>(null);
@@ -179,7 +186,7 @@
                 </div>
                 <div class="-mt-3 -mb-7 flex flex-row w-3/5 justify-center items-center gap-2">
                     <p class="">Nemáte ůčet?</p>
-                    <button class="text-blue-600 underline hover:text-blue-500 duration-300">Registrovat</button>
+                    <div on:click={handleRegister} class="cursor-pointer text-blue-600 underline hover:text-blue-500 duration-300">Registrovat</div>
                 </div>
                 <div class="w-2/5 flex items-center mt-8 justify-center">
                     <button type="submit" class="text-2xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
