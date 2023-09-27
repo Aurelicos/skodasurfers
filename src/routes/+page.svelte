@@ -3,11 +3,14 @@
 </script>
 
 <section class="h-[84vh]">
-    <div class="grid grid-cols-2 h-full w-full pb-32">
+    <div class="grid grid-cols-2 h-full w-full pb-16">
         <div class="items-start justify-center flex flex-col pl-40 gap-8">
             <h1 class="text-9xl text-emerald-950 font-semibold ">lorem ipsum ipsum</h1>
             <p class="text-2xl w-[35rem]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                 molestiae</p>
+            <button class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
+                Zahrajte si!
+            </button>
         </div>
         <div class="w-full flex items-center justify-center pt-12">
             <img src="https://bluesky-cogcms-prodb.cdn.imgeng.in/media/0j4ax3kj/39818-caffyns-skoda-enyaq-coupe-new-car-page_cut-out_321x768.png" alt="cool car" />

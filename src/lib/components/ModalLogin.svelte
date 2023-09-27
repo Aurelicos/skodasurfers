@@ -135,7 +135,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-    class="main absolute w-full h-screen top-0 bg-black bg-opacity-60 z-50 {closed
+    class="main fixed w-full h-screen top-0 bg-black bg-opacity-60 z-50 {closed
         ? 'hidden'
         : 'flex'} justify-center items-center"
     on:click={(e) => {
@@ -143,57 +143,48 @@
         if (e.target.className?.includes("main")) handleClose();
     }}
 >
-    <div class="relative h-[25rem] w-2/5 bg-slate-300 rounded-2xl">
+    <div class="relative h-[60%] w-[40%] border-[#103a30] border-[3px] bg-[#f3f3f3] rounded-3xl">
         <button
-            class="bg-white h-8 w-8 rounded-full right-[-1rem] top-[-1rem] absolute"
-            on:click={handleClose}><img src={cross} alt="cross" /></button
-        >
+            class="bg-white h-8 w-8 rounded-full right-[-0.8rem] top-[-0.8rem] absolute"
+            on:click={handleClose}><img src={cross} alt="cross" /></button>
         <form
             class="flex flex-col gap-6 text-black py-8 px-12 justify-center items-center w-full h-full"
             method="POST"
-            on:submit|preventDefault={handleSubmit}
-        >
-            <div
-                class="w-full h-full flex items-center justify-center flex-col"
-            >
-                <div
-                    class="inputBox flex flex-col w-full justify-center items-center"
-                >
-                    <div
-                        class="flex justify-start w-4/5 text-slate-700 text-lg pb-2"
-                    >
+            on:submit|preventDefault={handleSubmit}>
+            <div class="w-full h-full flex items-center justify-center flex-col gap-8">
+                <h1 class="text-4xl text-center">Přihlašte se</h1>
+                <div class="inputBox flex flex-col w-full justify-center items-center">
+                    <div class="flex justify-start w-3/5 ml-3 text-emerald-950 text-lg">
                         <p>Email</p>
                     </div>
                     <input
-                        class="w-4/5 p-[10px] border-none rounded-lg outline-none text-slate-700 placeholder:text-slate-700 placeholder:text-opacity-70"
-                        placeholder="Email"
+                        class="w-3/5 px-6 py-3 rounded-lg outline-none text-slate-700 placeholder:text-slate-700 placeholder:text-opacity-50"
+                        placeholder="john.doe@gmail.com"
                         name="email"
                         type="email"
                         required
                     />
                 </div>
-
-                <div
-                    class="inputBox flex flex-col w-full justify-center items-center mt-8"
-                >
-                    <div
-                        class="flex justify-start w-4/5 text-slate-700 text-lg pb-2"
-                    >
+                <div class="inputBox flex flex-col w-full justify-center items-center">
+                    <div class="flex justify-start w-3/5 text-emerald-950 text-lg ml-3">
                         <p>Password</p>
                     </div>
                     <input
-                        class="w-4/5 p-[10px] border-none rounded-lg outline-none placeholder:text-slate-700 placeholder:text-opacity-70"
-                        placeholder="Password"
+                        class="w-3/5 px-6 py-3 rounded-lg outline-none placeholder:text-slate-700 placeholder:text-opacity-50"
+                        placeholder="🤫"
                         name="password"
                         type="password"
                         required
                     />
                 </div>
-                <div class="w-4/5">
-                    <button
-                        class="p-[10px] border-none bg-green-500 cursor-pointer hover:bg-green-600 mt-10 w-full rounded-lg"
-                        type="submit">Login</button
-                    >
+                <div class="-mt-3 -mb-7 flex flex-row w-3/5 justify-center items-center gap-2">
+                    <p class="">Nemáte ůčet?</p>
+                    <button class="text-blue-600 underline hover:text-blue-500 duration-300">Registrovat</button>
+                </div>
+                <div class="w-2/5 flex items-center mt-8 justify-center">
+                    <button type="submit" class="text-2xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
+                        Přihlásit
+                    </button>
                 </div>
             </div>
         </form>
