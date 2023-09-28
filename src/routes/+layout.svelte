@@ -7,7 +7,7 @@
   import ModalSignUp from "$lib/components/ModalSignUp.svelte";
 
   onMount(initFirebase);
-  import { Toaster } from 'svelte-french-toast';
+  import { Toaster } from "svelte-french-toast";
 
   let closed:boolean = true;
   let closed2:boolean = true;
