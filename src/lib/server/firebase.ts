@@ -75,3 +75,10 @@ export async function getData(token: string) {
         return {success: true, message: null, data}
     }
 }
+
+export async function getName(uid: string) {
+    const db = admin.firestore();
+    const userRef = db.collection('users').doc(uid);
+    const data = (await userRef.get()).data() ?? {};
+    return data.name;
+}

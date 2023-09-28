@@ -11,6 +11,7 @@ declare global {
 				uid: string;
 				email?: string;
 				token: string;
+				name:string;
 			};
 		}
 	}
