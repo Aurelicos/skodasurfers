@@ -2,12 +2,13 @@
     import CarModel from "$lib/components/CarModel.svelte";
     import { onMount } from "svelte";
     import { exportedValue } from "$lib/stores/store";
+    import Scene from "./scene.svelte";
     import type { PageData } from "./$types";
 
     let rotateModel: any;
     let scrollY: any;
 
-    // export let data: PageData;
+    export let data: PageData;
 
     onMount(() => {
         const handleScroll = (event: WheelEvent) => {
@@ -27,6 +28,8 @@
     function updateStoreValue() {
         exportedValue.set(closedOnButton);
     }
+
+    let score = 0;
 
     onMount(updateStoreValue);
 </script>
@@ -68,28 +71,45 @@
     </a>
 </section>
 <section id="game" class="h-screen mt-52 flex justify-evenly mb-12">
-    <div class="h-full w-4/5 bg-black mx-12" />
-    <div class="h-full w-1/5 bg-slate-300 mr-12 rounded-3xl py-8 px-8">
-        <h1>Score:</h1>
-        <h2>Money:</h2>
-        <div class="flex flex-col">
-            <p>cars:</p>
-            <div>
-                <input type="checkbox" name="car1" /><label for="car1"
-                    >auto1 - 2 000 000 Kč</label
-                >
+    <div
+        class="h-full w-4/5 mx-12 flex justify-center items-center bg-black px-8"
+        id="gameContainer"
+    >
+        <Scene
+            on:score={(event) => score = event.detail}
+            on:gameOver={() => {
+                (closedOnButton = "true"), updateStoreValue();
+            }}
+        />
+    </div>
+    <div
+        class="h-full w-1/5 bg-slate-300 mr-12 rounded-3xl py-8 px-8 flex justify-center items-center flex-col"
+    >
+        {#if data.user}
+            <h1>Alltime score: {data.gameData.score}</h1>
+            <h1>Current Score: {score}</h1>
+            <h2>Money: {data.gameData.money}</h2>
+            <div class="flex flex-col">
+                <p>cars:</p>
+                <div>
+                    <input type="checkbox" name="car1"  /><label for="car1"
+                        >auto1 - 2 000 000 Kč</label
+                    >
+                </div>
+                <div>
+                    <input type="checkbox" name="car2" /><label for="car2"
+                        >auto1 - 3 000 000 Kč</label
+                    >
+                </div>
+                <div>
+                    <input type="checkbox" name="car3" /><label for="car3"
+                        >auto1 - 4 000 000 Kč</label
+                    >
+                </div>
             </div>
-            <div>
-                <input type="checkbox" name="car2" /><label for="car2"
-                    >auto1 - 8 000 000 Kč</label
-                >
-            </div>
-            <div>
-                <input type="checkbox" name="car3" /><label for="car3"
-                    >auto1 - 12 000 000 Kč</label
-                >
-            </div>
-        </div>
+        {:else}
+            <h1>Pro zobrazení dat se musíte přihlásit</h1>
+        {/if}
     </div>
 </section>
 

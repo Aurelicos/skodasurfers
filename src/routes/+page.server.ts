@@ -2,12 +2,15 @@ import { SESSION_COOKIE_NAME } from "$lib/constants";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from './$types';
 import { addDataToDB } from "$lib/server/firebase";
+import { getData } from "$lib/server/firebase";
 
-export const load: PageServerLoad = (event) => {
+export const load: PageServerLoad = async (event) => {
     const user = event.locals.user;
     if (!user) return;
+    const gameData = (await getData(user.uid)).data;
     return {
-        user
+        user,
+        gameData
     }
 }
 
