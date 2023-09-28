@@ -1,6 +1,25 @@
-<script>
+<script lang="ts">
     import CarModel from "$lib/components/CarModel.svelte";
+    import { onMount } from "svelte";
+
+    let rotateModel: any;
+    let scrollY: any;
+
+    onMount(() => {
+        const handleScroll = (event: WheelEvent) => {
+            if (scrollY === 0) return;
+            if (rotateModel) {
+                rotateModel(event.deltaY);
+            }
+        };
+        window.addEventListener("wheel", handleScroll);
+        return () => {
+            window.removeEventListener("wheel", handleScroll);
+        };
+    });
 </script>
+
+<svelte:window bind:scrollY={scrollY} />
 
 <section class="h-[84vh]">
     <div class="grid grid-cols-2 h-full w-full pb-16">
@@ -19,7 +38,7 @@
             </button>
         </div>
         <div class="w-full flex items-center justify-center pt-12 h-[90vh] pb-16">
-            <CarModel />
+            <CarModel bind:rotate={rotateModel} />
         </div>
     </div>
     <div class="flex justify-center">

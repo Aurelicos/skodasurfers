@@ -3,6 +3,10 @@
     import * as THREE from "three";
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
     import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+    import { tweened } from "svelte/motion";
+    import { cubicOut } from "svelte/easing";
+
+    export let rotate;
 
     let container: HTMLDivElement;
     let scene: THREE.Scene,
@@ -13,6 +17,10 @@
     let controls: OrbitControls;
     let initialRotation = (Math.PI / 2) * 3;
     let wrapper: THREE.Object3D;
+    let rotationY = tweened(initialRotation, {
+        duration: 1000,
+        easing: cubicOut,
+    });
 
     onMount(() => {
         scene = new THREE.Scene();
@@ -26,11 +34,11 @@
         renderer.setSize(container.clientWidth, container.clientHeight);
         container.appendChild(renderer.domElement);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
         scene.add(ambientLight);
 
         const directionalLight = new THREE.DirectionalLight(0xffffff, 10);
-        directionalLight.position.set(0, 10, 0);
+        directionalLight.position.set(0, 1, 0);
         scene.add(directionalLight);
 
         controls = new OrbitControls(camera, renderer.domElement);
@@ -65,28 +73,25 @@
             }
         );
 
-        const onWheel = (event: WheelEvent) => {
-            if (wrapper) {
-                console.log("Wrapper is defined");
-                wrapper.rotation.y += event.deltaY * 0.001;
-            }
-        };
-
-        container.addEventListener("wheel", onWheel);
-
         camera.position.z = 350;
 
         const animate = () => {
             requestAnimationFrame(animate);
             controls.update();
+            if (wrapper) wrapper.rotation.y = $rotationY;
             renderer.render(scene, camera);
         };
         animate();
 
+        rotate = (deltaY: number) => {
+            if (wrapper) {
+                rotationY.update((v) => v + deltaY * 0.003);
+            }
+        };
+
         return () => {
             controls.dispose();
             renderer.dispose();
-            container.removeEventListener("wheel", onWheel);
         };
     });
 </script>
