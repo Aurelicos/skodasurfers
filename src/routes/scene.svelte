@@ -2,6 +2,10 @@
     import { createEventDispatcher, onMount } from "svelte";
     import * as THREE from "three";
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+<<<<<<< HEAD
+=======
+    import { gameControl } from "./store";
+>>>>>>> 73732ae (fixed backend)
 
     const dispatch = createEventDispatcher();
 
@@ -455,7 +459,11 @@
                             playerLifeCount--;
                             if (playerLifeCount === 0) {
                                 gameOver = true;
+<<<<<<< HEAD
                                 location.reload();
+=======
+                                //location.reload();
+>>>>>>> 73732ae (fixed backend)
                             }
                         }
                     }
@@ -476,4 +484,11 @@
         spawnGround(groundModelPath);
         animate();
     });
+<<<<<<< HEAD
+=======
+
+    $: if ($gameControl.restart) {
+        location.reload();
+    }
+>>>>>>> 73732ae (fixed backend)
 </script>
