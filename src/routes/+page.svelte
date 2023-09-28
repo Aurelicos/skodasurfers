@@ -62,6 +62,12 @@
     }
 
     async function handleSubmit(this: HTMLFormElement, event: Event) {
+        if (!data.user) {
+            restartGame();
+            gameOver = false
+            invalidateAll();
+            return;
+        }
         const formData = new FormData();
         const score = currentScore;
         formData.append("score", score.toString());
