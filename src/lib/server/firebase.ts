@@ -103,20 +103,26 @@ export async function getName(uid: string) {
 }
 
 export async function buyCar(uid: string, car: string) {
-    const db = admin.firestore();
-    const userRef = db.collection('users').doc(uid);
-    const userData = (await userRef.get()).data() ?? {};
-    // @ts-ignore
-    const carPrice = cars[car];
-    if (!carPrice) throw new Error('Car does not exist');
+    try {
+        const db = admin.firestore();
+        const userRef = db.collection('users').doc(uid);
+        const userData = (await userRef.get()).data() ?? {};
+        // @ts-ignore
+        const carPrice = cars[car];
+        if (!carPrice) return { success: false, message: "Invalid car" };
+    
+        const userCurrency = userData.money ?? 0;
+        if (userCurrency < carPrice) return { success: false, message: "Not enough money" };
+    
+        const userCars = userData.cars ?? [];
+        userCars.push(car);
+        await userRef.update({
+            cars: userCars,
+            money: userCurrency - carPrice,
+        });
+        return { success: true, message: null };
+    } catch (e) {
+        return { success: false, message: String(e) };
+    }
 
-    const userCurrency = userData.currency ?? 0;
-    if (userCurrency < carPrice) throw new Error('User cannot afford this car');
-
-    const userCars = userData.cars ?? [];
-    userCars.push(car);
-    await userRef.update({
-        cars: userCars,
-        currency: userCurrency - carPrice,
-    });
 }

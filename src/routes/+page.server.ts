@@ -1,7 +1,7 @@
 import { SESSION_COOKIE_NAME } from "$lib/constants";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from './$types';
-import { addDataToDB, uploadData } from "$lib/server/firebase";
+import { addDataToDB, buyCar, uploadData } from "$lib/server/firebase";
 import { getData } from "$lib/server/firebase";
 
 export const load: PageServerLoad = async (event) => {
@@ -69,6 +69,34 @@ export const actions: Actions = {
         const money = Number(formData.get('money')?.valueOf()) ?? 0;
 
         const success = await uploadData(user.uid, score, money);
+
+        if (!success.success) {
+            return fail(500, {
+                error: success.message,
+            });
+        }
+        return { success: true, message: null };
+    },
+    buyCar: async (event) => {
+        const user = event.locals.user;
+        if (!user) return fail(401, {
+            error: "Unauthorized",
+        });
+
+        const formData = await event.request.formData();
+        let names: string[] = [];
+        formData.forEach((value, name) => {
+            names.push(name);
+        });
+        if (!names) {
+            return fail(500, {
+                error: "No car selected",
+            });
+        }
+        const sorted = names.sort();
+        const car = sorted[0];
+        console.log(car);
+        const success = await buyCar(user.uid, car);
 
         if (!success.success) {
             return fail(500, {

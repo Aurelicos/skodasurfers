@@ -6,6 +6,7 @@
     import type { PageData } from "./$types";
     import { invalidateAll } from "$app/navigation";
     import { gameControl } from "./store";
+    import toast from "svelte-french-toast";
 
     let rotateModel: any;
     let scrollY: any;
@@ -43,6 +44,22 @@
     let currentScore = 0;
     let gameOver = false;
     let money = 0;
+
+    async function handleCar(this: HTMLFormElement, event: Event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const response = await fetch(`/?/buyCar`, {
+            method: "POST",
+            body: formData,
+        });
+        const result = await response.json();
+        if (result.type !== "success") {
+            toast.error("You can't buy a car!");
+            return;
+        }
+        toast.success("Car bought!");
+        invalidateAll();
+    }
 
     async function handleSubmit(this: HTMLFormElement, event: Event) {
         const formData = new FormData();
@@ -132,24 +149,35 @@
             <h1>Alltime score: {data.gameData.score}</h1>
             <h1>Current Score: {currentScore}</h1>
             <h2>Money: {data.gameData.money + money}</h2>
-            <div class="flex flex-col">
+            <form method="POST" on:submit={handleCar} class="flex flex-col">
                 <p>cars:</p>
                 <div>
-                    <input type="checkbox" name="car1" /><label for="car1"
-                        >auto1 - 2 000 000 Kč</label
+                    <input type="checkbox" name="car1" checked disabled /><label
+                        for="car1">auto1 - 2 000 000 Kč</label
                     >
                 </div>
                 <div>
-                    <input type="checkbox" name="car2" /><label for="car2"
-                        >auto1 - 3 000 000 Kč</label
-                    >
+                    <input
+                        type="checkbox"
+                        name="car2"
+                        checked={data.gameData.cars.includes("car2")}
+                        disabled={data.gameData.cars.includes("car2")}
+                    /><label for="car2">auto1 - 3 000 000 Kč</label>
                 </div>
                 <div>
-                    <input type="checkbox" name="car3" /><label for="car3"
-                        >auto1 - 4 000 000 Kč</label
-                    >
+                    <input
+                        type="checkbox"
+                        name="car3"
+                        checked={data.gameData.cars.includes("car3")}
+                        disabled={data.gameData.cars.includes("car3")}
+                    /><label for="car3">auto1 - 4 000 000 Kč</label>
                 </div>
-            </div>
+                <button
+                    type="submit"
+                    class="bg-green-600 px-10 py-4 rounded-lg hover:bg-green-800"
+                    >Buy Cars</button
+                >
+            </form>
         {:else}
             <h1>Pro zobrazení dat se musíte přihlásit</h1>
         {/if}
