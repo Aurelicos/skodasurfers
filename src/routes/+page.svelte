@@ -1,7 +1,7 @@
 <script lang="ts">
     import CarModel from "$lib/components/CarModel.svelte";
     import { onMount } from "svelte";
-    import { exportedValue } from '$lib/store';
+    import { exportedValue } from '$lib/stores/store';
 
     let rotateModel: any;
     let scrollY: any;
