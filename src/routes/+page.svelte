@@ -1,30 +1,40 @@
-<script>
+<script lang="ts">
+    import { onMount } from 'svelte';
+    import { exportedValue } from '$lib/store';
 
+    let closedOnButton = "true";
+
+    // Function to update the store value
+    function updateStoreValue() {
+        exportedValue.set(closedOnButton);
+    }
+
+    // Call the update function onMount
+    onMount(updateStoreValue);
 </script>
 
-<section class="h-[84vh]">
+<section id="hero" class="h-[84vh]">
     <div class="grid grid-cols-2 h-full w-full pb-16">
         <div class="items-start justify-center flex flex-col pl-40 gap-8">
-            <h1 class="text-9xl text-emerald-950 font-semibold ">lorem ipsum ipsum</h1>
-            <p class="text-2xl w-[35rem]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                molestiae</p>
-            <button class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
+            <h1 class="text-9xl text-emerald-950 font-semibold uppercase">škoda surfers</h1>
+            <p class="text-2xl w-[35rem]">Ekologická hra, šířící povědomí o ochraně životního prostředí a udržitelnosti.</p>
+            <a on:click={() => {closedOnButton = "false", updateStoreValue()}} href="/#game" class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
                 Zahrajte si!
-            </button>
+            </a>
         </div>
         <div class="w-full flex items-center justify-center pt-12">
             <img src="https://bluesky-cogcms-prodb.cdn.imgeng.in/media/0j4ax3kj/39818-caffyns-skoda-enyaq-coupe-new-car-page_cut-out_321x768.png" alt="cool car" />
         </div>
     </div>
-    <div class="flex justify-center">
+    <a href="/#game" class="flex justify-center">
         <svg class="arrows">
             <path class="a1" d="M0 0 L30 32 L60 0"></path>
             <path class="a2" d="M0 20 L30 52 L60 20"></path>
             <path class="a3" d="M0 40 L30 72 L60 40"></path>
         </svg>
-    </div>
+    </a>
 </section>
-<section class="h-screen mt-96">
+<section id="game" class="h-screen mt-96">
     <div class="h-full w-full">
         <h1 class="text-8xl flex h-full items-center justify-center">hra</h1>
     </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../app.postcss";
 
-  import { onMount } from "svelte";
+  import {onDestroy, onMount} from "svelte";
   import { initFirebase } from "$lib/client/firebase";
   import ModalLogin from "$lib/components/ModalLogin.svelte";
   import ModalSignUp from "$lib/components/ModalSignUp.svelte";
@@ -11,10 +11,18 @@
 
   let closed:boolean = true;
   let closed2:boolean = true;
+
+  import { exportedValue } from '$lib/store';
+
+  const unsubscribe = exportedValue.subscribe((value) => {
+    if (value === "false") {
+      closed = false;
+    }
+  });
+
+  onDestroy(unsubscribe);
 </script>
-
 <Toaster />
-
 <ModalLogin closed={closed} on:close={() => (closed = true)} on:register={() => {closed2 = false, closed = true}} />
 <ModalSignUp closed={closed2} on:close={() => (closed2 = true)} on:login={() => {closed = false, closed2 = true}} />
 
@@ -50,17 +58,17 @@
   </span>
     <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0 gap-6">
       <li>
-        <a href="https://www.skoda-auto.com/" class="hover:underline">Škoda</a>
+        <a target="_blank" href="https://www.skoda-auto.com/" class="hover:underline">Škoda</a>
       </li>
       <li>
-        <a href="https://www.ssps.cz/" class="hover:underline">SSPŠ</a>
+        <a target="_blank" href="https://www.ssps.cz/" class="hover:underline">SSPŠ</a>
       </li>
       <div class="inline-block h-[35px] min-h-[1em] w-0.5 self-stretch bg-neutral-100 opacity-100"></div>
       <li>
-        <a href="#" class="hover:underline">Hra</a>
+        <a href="/#game" class="hover:underline">Hra</a>
       </li>
       <li>
-        <a href="#" class="hover:underline">Nahoru</a>
+        <a href="/#hero" class="hover:underline">Nahoru</a>
       </li>
     </ul>
   </div>
