@@ -59,19 +59,29 @@ export async function addDataToDB(token: string, name: string) {
     return { success: true, message: null };
 }
 
-export async function uploadData(token: string, score: number | 0, money: number | 0, cars: string[] | []) {
-    const decodedToken = await decodeToken(token);
-    if (!decodedToken) {
-        return { success: false, message: "Invalid token" }
-    };
-    const uid = decodedToken.uid;
-    const db = admin.firestore();
-    const userRef = db.collection('users').doc(uid);
-    await userRef.update({
-        score: score,
-        money: money,
-        cars: cars,
-    });
+export async function uploadData(uid: string, score: number = 0, money: number = 0) {
+    try {
+        const db = admin.firestore();
+        const userRef = db.collection('users').doc(uid);
+
+        const doc = await userRef.get();
+        
+        if (!doc.exists) {
+            await userRef.set({ score, money });
+        } else {
+            const data = doc.data();
+
+            const newScore = (data?.score ?? 0) + score;
+            const newMoney = (data?.money ?? 0) + money;
+            
+            await userRef.update({ score: newScore, money: newMoney });
+        }
+
+        return { success: true, message: null };
+    } catch (e) {
+        console.error('Error updating user data:', e);
+        return { success: false, message: String(e) };
+    }
 }
 
 export async function getData(uid: string): Promise<{ success: boolean, message: string | null, data: any }> {

@@ -455,6 +455,7 @@
                             playerLifeCount--;
                             if (playerLifeCount === 0) {
                                 gameOver = true;
+                                location.reload();
                             }
                         }
                     }

@@ -4,11 +4,17 @@
     import { exportedValue } from "$lib/stores/store";
     import Scene from "./scene.svelte";
     import type { PageData } from "./$types";
+    import { invalidateAll } from "$app/navigation";
+    import { gameControl } from "./store";
 
     let rotateModel: any;
     let scrollY: any;
-
+    let width;
     export let data: PageData;
+
+    function restartGame() {
+        gameControl.update((value) => ({ ...value, restart: !value.restart }));
+    }
 
     onMount(() => {
         const handleScroll = (event: WheelEvent) => {
@@ -18,6 +24,7 @@
             }
         };
         window.addEventListener("wheel", handleScroll);
+        updateStoreValue;
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
@@ -29,12 +36,45 @@
         exportedValue.set(closedOnButton);
     }
 
-    let score = 0;
+    let currentScore = 0;
+    let gameOver = false;
+    let money = 0;
 
-    onMount(updateStoreValue);
+    async function handleSubmit(this: HTMLFormElement, event: Event) {
+        const formData = new FormData();
+        const score = currentScore;
+        formData.append("score", score.toString());
+        formData.append("money", money.toString());
+        const response = await fetch(`${this.action}?/saveData`, {
+            method: "POST",
+            body: formData,
+        });
+        const result = await response.json();
+        if (result.type !== "success") {
+            return;
+        }
+        invalidateAll();
+        restartGame();
+        gameOver = false;
+    }
+    $: money = currentScore * 651;
 </script>
 
 <svelte:window bind:scrollY />
+
+{#if gameOver}
+    <form
+        method="POST"
+        on:submit|preventDefault={handleSubmit}
+        class="z-50 fixed h-screen w-screen top-0 left-0 bg-black bg-opacity-70 flex justify-center items-center flex-col"
+    >
+        <h1 class="text-9xl text-slate-300">Game Over</h1>
+        <button
+            class="bg-gray-600 text-slate-200 py-4 px-10 mt-8 rounded-lg hover:bg-gray-800"
+            type="submit">Continue</button
+        >
+    </form>
+{/if}
 
 <section id="hero" class="h-[84vh]">
     <div class="grid grid-cols-2 h-full w-full pb-16">
@@ -72,14 +112,13 @@
 </section>
 <section id="game" class="h-screen mt-52 flex justify-evenly mb-12">
     <div
-        class="h-full w-4/5 mx-12 flex justify-center items-center bg-black px-8"
+        class="h-full w-4/5 mx-12 flex justify-center items-center"
+        bind:clientWidth={width}
         id="gameContainer"
     >
         <Scene
-            on:score={(event) => score = event.detail}
-            on:gameOver={() => {
-                (closedOnButton = "true"), updateStoreValue();
-            }}
+            on:score={(event) => (currentScore = event.detail)}
+            on:gameOver={(e) => (gameOver = e.detail)}
         />
     </div>
     <div
@@ -87,12 +126,12 @@
     >
         {#if data.user}
             <h1>Alltime score: {data.gameData.score}</h1>
-            <h1>Current Score: {score}</h1>
-            <h2>Money: {data.gameData.money}</h2>
+            <h1>Current Score: {currentScore}</h1>
+            <h2>Money: {data.gameData.money + money}</h2>
             <div class="flex flex-col">
                 <p>cars:</p>
                 <div>
-                    <input type="checkbox" name="car1"  /><label for="car1"
+                    <input type="checkbox" name="car1" /><label for="car1"
                         >auto1 - 2 000 000 Kč</label
                     >
                 </div>
