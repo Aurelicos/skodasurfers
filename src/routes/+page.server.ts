@@ -1,14 +1,17 @@
 import { SESSION_COOKIE_NAME } from "$lib/constants";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from './$types';
-import { addDataToDB, getData } from "$lib/server/firebase";
+import { addDataToDB, uploadData } from "$lib/server/firebase";
+import { getData } from "$lib/server/firebase";
 
-export const load: PageServerLoad = (event) => {
+export const load: PageServerLoad = async (event) => {
     const user = event.locals.user;
-    if (!user) return
-
-    getData(user.token)
-    return {user}
+    if (!user) return;
+    const gameData = (await getData(user.uid)).data;
+    return {
+        user,
+        gameData
+    }
 }
 
 export const actions: Actions = {
@@ -55,4 +58,23 @@ export const actions: Actions = {
 
         return { success: true, message: null };
     },
+    saveData: async (event) => {
+        const user = event.locals.user;
+        if (!user) return fail(401, {
+            error: "Unauthorized",
+        });
+
+        const formData = await event.request.formData();
+        const score = Number(formData.get('score')?.valueOf()) ?? 0;
+        const money = Number(formData.get('money')?.valueOf()) ?? 0;
+
+        const success = await uploadData(user.uid, score, money);
+
+        if (!success.success) {
+            return fail(500, {
+                error: success.message,
+            });
+        }
+        return { success: true, message: null };
+    }
 };

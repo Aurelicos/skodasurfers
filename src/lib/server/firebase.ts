@@ -1,5 +1,6 @@
 import admin from 'firebase-admin';
 import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import { cars } from '$lib/constants';
 import key from "./key.json";
 
 export const initializeFirebase = () => {
@@ -42,37 +43,55 @@ export async function addDataToDB(token: string, name: string) {
         await userRef.set({
             email,
             name,
+            score: 0,
+            money: 0,
+            cars: [],
         });
     } else {
         await userRef.update({
             email,
             name,
+            score: 0,
+            money: 0,
+            cars: [],
         });
     }
     return { success: true, message: null };
 }
 
-export async function uploadScoreAndMoney(token: string) {
-    const decodedToken = await decodeToken(token);
-    if (!decodedToken) {
-        return { success: false, message: "Invalid token" }
-    };
-    const uid = decodedToken.uid;
+export async function uploadData(uid: string, score: number = 0, money: number = 0) {
+    try {
+        const db = admin.firestore();
+        const userRef = db.collection('users').doc(uid);
+
+        const doc = await userRef.get();
+        
+        if (!doc.exists) {
+            await userRef.set({ score, money });
+        } else {
+            const data = doc.data();
+
+            const newScore = (data?.score ?? 0) + score;
+            const newMoney = (data?.money ?? 0) + money;
+            
+            await userRef.update({ score: newScore, money: newMoney });
+        }
+
+        return { success: true, message: null };
+    } catch (e) {
+        console.error('Error updating user data:', e);
+        return { success: false, message: String(e) };
+    }
 }
 
-export async function getData(token: string) {
-    const decodedToken = await decodeToken(token);
-    if (!decodedToken) {
-        return { success: false, message: "Invalid token" }
-    };
-    const uid = decodedToken.uid;
-    const db = admin.firestore();
-    const userRef = db.collection('users').doc(uid);
-    const data = (await userRef.get()).data() ?? {};
-    if (!data.score || !data.money || !data.cars) {
-        return { success: false, message: "Missing values!"}
-    } else {
-        return {success: true, message: null, data}
+export async function getData(uid: string): Promise<{ success: boolean, message: string | null, data: any }> {
+    try {
+        const db = admin.firestore();
+        const userRef = db.collection('users').doc(uid);
+        const data = (await userRef.get()).data() ?? {};
+        return { success: true, message: null, data }
+    } catch (e: any) {
+        return { success: false, message: String(e), data: null }
     }
 }
 
@@ -81,4 +100,23 @@ export async function getName(uid: string) {
     const userRef = db.collection('users').doc(uid);
     const data = (await userRef.get()).data() ?? {};
     return data.name;
+}
+
+export async function buyCar(uid: string, car: string) {
+    const db = admin.firestore();
+    const userRef = db.collection('users').doc(uid);
+    const userData = (await userRef.get()).data() ?? {};
+    // @ts-ignore
+    const carPrice = cars[car];
+    if (!carPrice) throw new Error('Car does not exist');
+
+    const userCurrency = userData.currency ?? 0;
+    if (userCurrency < carPrice) throw new Error('User cannot afford this car');
+
+    const userCars = userData.cars ?? [];
+    userCars.push(car);
+    await userRef.update({
+        cars: userCars,
+        currency: userCurrency - carPrice,
+    });
 }

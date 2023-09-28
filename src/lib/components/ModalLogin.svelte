@@ -114,6 +114,7 @@
                         return handleClose();
                     }
                     resolve("Logged in successfully!");
+                    handleClose();
                     invalidateAll();
                 } catch (e) {
                     console.log(e);

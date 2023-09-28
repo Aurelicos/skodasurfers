@@ -1,13 +1,20 @@
 <script lang="ts">
-    import type {PageData} from "./$types"
     import CarModel from "$lib/components/CarModel.svelte";
     import { onMount } from "svelte";
-    import { exportedValue } from '$lib/stores/store';
-
-    export let data: PageData;
+    import { exportedValue } from "$lib/stores/store";
+    import Scene from "./scene.svelte";
+    import type { PageData } from "./$types";
+    import { invalidateAll } from "$app/navigation";
+    import { gameControl } from "./store";
 
     let rotateModel: any;
     let scrollY: any;
+    let width;
+    export let data: PageData;
+
+    function restartGame() {
+        gameControl.update((value) => ({ ...value, restart: !value.restart }));
+    }
 
     onMount(() => {
         const handleScroll = (event: WheelEvent) => {
@@ -17,6 +24,7 @@
             }
         };
         window.addEventListener("wheel", handleScroll);
+        updateStoreValue;
         return () => {
             window.removeEventListener("wheel", handleScroll);
         };
@@ -29,20 +37,70 @@
     }
 
     onMount(() => {updateStoreValue("true")});
+
+    let currentScore = 0;
+    let gameOver = false;
+    let money = 0;
+
+    async function handleSubmit(this: HTMLFormElement, event: Event) {
+        const formData = new FormData();
+        const score = currentScore;
+        formData.append("score", score.toString());
+        formData.append("money", money.toString());
+        const response = await fetch(`${this.action}?/saveData`, {
+            method: "POST",
+            body: formData,
+        });
+        const result = await response.json();
+        if (result.type !== "success") {
+            return;
+        }
+        invalidateAll();
+        restartGame();
+        gameOver = false;
+    }
+    $: money = currentScore * 651;
 </script>
 
-<svelte:window bind:scrollY={scrollY} />
+<svelte:window bind:scrollY />
+
+{#if gameOver}
+    <form
+        method="POST"
+        on:submit|preventDefault={handleSubmit}
+        class="z-50 fixed h-screen w-screen top-0 left-0 bg-black bg-opacity-70 flex justify-center items-center flex-col"
+    >
+        <h1 class="text-9xl text-slate-300">Game Over</h1>
+        <button
+            class="bg-gray-600 text-slate-200 py-4 px-10 mt-8 rounded-lg hover:bg-gray-800"
+            type="submit">Continue</button
+        >
+    </form>
+{/if}
 
 <section id="hero" class="h-[84vh]">
     <div class="grid grid-cols-2 h-full w-full pb-16">
         <div class="items-start justify-center flex flex-col pl-40 gap-8">
-            <h1 class="text-9xl text-emerald-950 font-semibold uppercase">škoda surfers</h1>
-            <p class="text-2xl w-[35rem]">Ekologická hra, šířící povědomí o ochraně životního prostředí a udržitelnosti.</p>
-            <a on:click={() => {updateStoreValue("false")}} href="/#game" class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
+            <h1 class="text-9xl text-emerald-950 font-semibold uppercase">
+                škoda surfers
+            </h1>
+            <p class="text-2xl w-[35rem]">
+                Ekologická hra, šířící povědomí o ochraně životního prostředí a
+                udržitelnosti.
+            </p>
+            <a
+                on:click={() => {
+                    (closedOnButton = "false"), updateStoreValue();
+                }}
+                href="/#game"
+                class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500"
+            >
                 Zahrajte si!
             </a>
         </div>
-        <div class="w-full flex items-center justify-center pt-12 h-[90vh] pb-16">
+        <div
+            class="w-full flex items-center justify-center pt-12 h-[90vh] pb-16"
+        >
             <CarModel bind:rotate={rotateModel} />
         </div>
     </div>
@@ -55,11 +113,44 @@
     </a>
 </section>
 <section id="game" class="h-screen mt-52 flex justify-evenly mb-12">
-    <div class="h-full w-4/5 bg-black mx-12">
- 
+    <div
+        class="h-full w-4/5 mx-12 flex justify-center items-center"
+        bind:clientWidth={width}
+        id="gameContainer"
+    >
+        <Scene
+            on:score={(event) => (currentScore = event.detail)}
+            on:gameOver={(e) => (gameOver = e.detail)}
+        />
     </div>
-    <div class="h-full w-1/5 bg-red-600 mr-12">
-    
+    <div
+        class="h-full w-1/5 bg-slate-300 mr-12 rounded-3xl py-8 px-8 flex justify-center items-center flex-col"
+    >
+        {#if data.user}
+            <h1>Alltime score: {data.gameData.score}</h1>
+            <h1>Current Score: {currentScore}</h1>
+            <h2>Money: {data.gameData.money + money}</h2>
+            <div class="flex flex-col">
+                <p>cars:</p>
+                <div>
+                    <input type="checkbox" name="car1" /><label for="car1"
+                        >auto1 - 2 000 000 Kč</label
+                    >
+                </div>
+                <div>
+                    <input type="checkbox" name="car2" /><label for="car2"
+                        >auto1 - 3 000 000 Kč</label
+                    >
+                </div>
+                <div>
+                    <input type="checkbox" name="car3" /><label for="car3"
+                        >auto1 - 4 000 000 Kč</label
+                    >
+                </div>
+            </div>
+        {:else}
+            <h1>Pro zobrazení dat se musíte přihlásit</h1>
+        {/if}
     </div>
 </section>
 
