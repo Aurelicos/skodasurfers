@@ -22,13 +22,13 @@
         };
     });
 
-    let closedOnButton = "true";
-
-    function updateStoreValue() {
-        exportedValue.set(closedOnButton);
+    function updateStoreValue(closed: string) {
+        if (!data.user) {
+            exportedValue.set(closed);
+        }
     }
 
-    onMount(updateStoreValue);
+    onMount(() => {updateStoreValue("true")});
 </script>
 
 <svelte:window bind:scrollY={scrollY} />
@@ -38,7 +38,7 @@
         <div class="items-start justify-center flex flex-col pl-40 gap-8">
             <h1 class="text-9xl text-emerald-950 font-semibold uppercase">škoda surfers</h1>
             <p class="text-2xl w-[35rem]">Ekologická hra, šířící povědomí o ochraně životního prostředí a udržitelnosti.</p>
-            <a on:click={() => {closedOnButton = "false", updateStoreValue()}} href="/#game" class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
+            <a on:click={() => {updateStoreValue("false")}} href="/#game" class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
                 Zahrajte si!
             </a>
         </div>
