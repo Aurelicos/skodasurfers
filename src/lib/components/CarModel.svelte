@@ -34,10 +34,10 @@
         renderer.setSize(container.clientWidth, container.clientHeight);
         container.appendChild(renderer.domElement);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
         scene.add(ambientLight);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 10);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
         directionalLight.position.set(0, 1, 0);
         scene.add(directionalLight);
 
@@ -47,7 +47,7 @@
         controls.enablePan = false;
         controls.enableZoom = false;
         controls.maxPolarAngle = Math.PI / 2;
-        controls.minPolarAngle = Math.PI / 2;
+        controls.minPolarAngle = Math.PI / 3;
 
         const loader = new GLTFLoader();
         loader.load(
@@ -73,7 +73,7 @@
             }
         );
 
-        camera.position.z = 350;
+        camera.position.z = 380;
 
         const animate = () => {
             requestAnimationFrame(animate);
@@ -85,7 +85,7 @@
 
         rotate = (deltaY: number) => {
             if (wrapper) {
-                rotationY.update((v) => v + deltaY * 0.003);
+                rotationY.update((v) => v + deltaY * 0.004);
             }
         };
 

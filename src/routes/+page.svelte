@@ -21,7 +21,7 @@
 
 <svelte:window bind:scrollY={scrollY} />
 
-<section class="h-[84vh]">
+<section class="h-screen">
     <div class="grid grid-cols-2 h-full w-full pb-16">
         <div class="items-start justify-center flex flex-col pl-40 gap-8">
             <h1 class="text-9xl text-emerald-950 font-semibold">
