@@ -5,22 +5,31 @@
   import { initFirebase } from "$lib/client/firebase";
   import ModalLogin from "$lib/components/ModalLogin.svelte";
   import ModalSignUp from "$lib/components/ModalSignUp.svelte";
-
-  onMount(initFirebase);
-
-  let closed: boolean = true;
-  let closed2: boolean = true;
-  let closed3: boolean = true;
-  let failed: boolean = false;
-
-  export let data: PageData;
-
   import { exportedValue } from "$lib/stores/store";
-  import QuizQuestion from "$lib/components/QuizQuestion.svelte";
   import type { PageData } from "./$types";
   import { invalidateAll } from "$app/navigation";
   import { getAuth, signOut } from "firebase/auth";
 
+  onMount(initFirebase);
+
+  onMount(() => {
+    const handleKeydown = (event: any) => {
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  });
+
+  let closed: boolean = true;
+  let closed2: boolean = true;
+
+  export let data: PageData;
   const unsubscribe = exportedValue.subscribe((value) => {
     if (value === "false") {
       closed = false;
@@ -52,12 +61,6 @@
   on:login={() => {
     (closed = false), (closed2 = true);
   }}
-/>
-<QuizQuestion
-  closed={closed3}
-  failed={failed}
-  on:close={() => (closed3 = true)}
-  on:failed={() => (failed = true)}
 />
 
 <nav class="bg-[#103a30] text-white">
