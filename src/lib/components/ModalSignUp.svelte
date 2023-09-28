@@ -12,6 +12,13 @@
         dispatch("close", closed);
     }
 
+    function handleLogin():void {
+        closedLogin = false;
+        dispatch("login", closedLogin)
+    }
+
+    let closedLogin:boolean = true;
+
     export let closed: boolean;
 
     let password: string;
@@ -159,7 +166,7 @@
                 </div>
                 <div class="-mt-3 -mb-7 flex flex-row w-3/5 justify-center items-center gap-2">
                     <p class="">Máte účet?</p>
-                    <button class="text-blue-600 underline hover:text-blue-500 duration-300">Přihlásit</button>
+                    <div on:click={handleLogin} class="cursor-pointer text-blue-600 underline hover:text-blue-500 duration-300">Přihlásit</div>
                 </div>
                 <div class="w-2/5 flex items-center mt-10 justify-center">
                     <button type="submit" class="text-2xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500">
