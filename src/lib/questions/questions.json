@@ -1,0 +1,116 @@
+{
+  "questions": [
+    {
+      "question": "Co je skleníkový efekt?",
+      "correct_answer": "Proces, kdy se teplo zachycuje v atmosféře kvůli skleníkovým plynům.",
+      "wrong_answers": [
+        "Meteorologický jev spojený se zvýšenou vlhkostí vzduchu."
+      ]
+    },
+    {
+      "question": "Jaký je hlavní cíl globálního dohovoru o změně klimatu, známého jako Pařížská dohoda?",
+      "correct_answer": "Snížit globální teploty a omezit globální oteplování.",
+      "wrong_answers": [
+        "Podpořit kosmický průmysl."
+      ]
+    },
+    {
+      "question": "Co je hlavním zdrojem obnovitelné energie?",
+      "correct_answer": "Slunce",
+      "wrong_answers": [
+        "Vítr"
+      ]
+    },
+    {
+      "question": "Kolik kg jídla vyhodí průměrný Čech každý rok?",
+      "correct_answer": "60kg",
+      "wrong_answers": [
+        "50kg"
+      ]
+    },
+    {
+      "question": "Kolik odpadu vyprodukuje v průměru jeden občan České republiky za rok?",
+      "correct_answer": "530kg",
+      "wrong_answers": [
+        "120kg"
+      ]
+    },
+    {
+      "question": "Disponuje Škoda Auto elektrickými modely?",
+      "correct_answer": "Ano, Škoda Auto disponuje několika elektrickými modely.",
+      "wrong_answers": [
+        "Škoda Auto nemá žádné elektrické modely."
+      ]
+    },
+    {
+      "question": "Co je biologická rozmanitost a proč je důležitá?",
+      "correct_answer": "Variabilita života na Zemi a zajišťuje ekosystémové služby.",
+      "wrong_answers": [
+        "Nepřispívá k ekosystémové rovnováze. - je nebezpečná"
+      ]
+    },
+    {
+      "question": "Může být globální teplota ovlivněna přírodními cykly?",
+      "correct_answer": "Ano",
+      "wrong_answers": [
+        "Ne"
+      ]
+    },
+    {
+      "question": "Co je skleníkový efekt?",
+      "correct_answer": "Proces, kdy se teplo zachycuje v atmosféře.",
+      "wrong_answers": [
+        "Teplotní rozdíl mezi skleníkem a okolím."
+      ]
+    },
+    {
+      "question": "Co je to ozonová díra?",
+      "correct_answer": "Díra v ochrané vrstvě atmosféry",
+      "wrong_answers": [
+        "Objekt vesmíru na podobné bázi jako černá díra"
+      ]
+    },
+    {
+      "question": "Co znamená 'udržitelný rozvoj'?",
+      "correct_answer": "Způsob rozvoje, který uspokojuje potřeby současné generace, aniž by ohrožoval potřeby budoucích generací.",
+      "wrong_answers": [
+        "Způsob bezemisní vývoje aut."
+      ]
+    },
+    {
+      "question": "Co je ekologická pyramida a jak funguje?",
+      "correct_answer": "Grafické znázornění ekosystému.",
+      "wrong_answers": [
+        "Jedná se o stavbu pyramidy z recyklovaného materiálu."
+      ]
+    },
+    {
+      "question": "Co je efekt skleníkového plynu?",
+      "correct_answer": "Plyny, které zachycují teplo v atmosféře.",
+      "wrong_answers": [
+        "Plyn, který ochlazuje atmosféru."
+      ]
+    },
+    {
+      "question": "Jak mohou lesy pomoci snižovat globální oteplování?",
+      "correct_answer": "Absorbují oxid uhličitý z atmosféry a ukládají ho jako uhlík.",
+      "wrong_answers": [
+        "Způsobují zvýšení emisí skleníkových plynů."
+      ]
+    },
+    {
+      "question": "Co je to UV záření?",
+      "correct_answer": "Pro člověka neviditelné záření, spojováno je hlavně s ozonovou dírou.",
+      "wrong_answers": [
+        "Záření jímž autonomní automobily měří vzdálenosti od překážek."
+      ]
+    },
+    {
+      "question": "Jaký je vliv používání pesticidů v zemědělství na životní prostředí a lidské zdraví?",
+      "correct_answer": "Používání pesticidů může vést k znečištění vody a zdravotním problémům u lidí.",
+      "wrong_answers": [
+        "Zvýšení výživové hodnoty potravin, používá se při výrobě ECO potravin."
+      ]
+    }
+  ]
+}

@@ -11,7 +11,8 @@
   let closed:boolean = true;
   let closed2:boolean = true;
 
-  import { exportedValue } from '$lib/store';
+  import { exportedValue } from '$lib/stores/store';
+  import QuizQuestion from "$lib/components/QuizQuestion.svelte";
 
   const unsubscribe = exportedValue.subscribe((value) => {
     if (value === "false") {
@@ -26,6 +27,7 @@
 
 <ModalLogin closed={closed} on:close={() => (closed = true)} on:register={() => {closed2 = false, closed = true}} />
 <ModalSignUp closed={closed2} on:close={() => (closed2 = true)} on:login={() => {closed = false, closed2 = true}} />
+<QuizQuestion />
 
 <nav class="bg-[#103a30] text-white">
   <div
