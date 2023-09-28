@@ -1,8 +1,11 @@
 <script lang="ts">
+    import type {PageData} from "./$types"
     import CarModel from "$lib/components/CarModel.svelte";
     import { onMount } from "svelte";
     import { exportedValue } from "$lib/stores/store";
     import type { PageData } from "./$types";
+
+    export let data: PageData;
 
     let rotateModel: any;
     let scrollY: any;

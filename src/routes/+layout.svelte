@@ -10,9 +10,14 @@
 
   let closed:boolean = true;
   let closed2:boolean = true;
+  let closed3:boolean = true;
+  let failed:boolean = false;
+
+  export let data: PageData;
 
   import { exportedValue } from '$lib/stores/store';
   import QuizQuestion from "$lib/components/QuizQuestion.svelte";
+  import type {PageData} from "./$types";
 
   const unsubscribe = exportedValue.subscribe((value) => {
     if (value === "false") {
@@ -27,7 +32,7 @@
 
 <ModalLogin closed={closed} on:close={() => (closed = true)} on:register={() => {closed2 = false, closed = true}} />
 <ModalSignUp closed={closed2} on:close={() => (closed2 = true)} on:login={() => {closed = false, closed2 = true}} />
-<QuizQuestion />
+<QuizQuestion closed={closed3} on:close={() => (closed3 = true)} on:failed={() => (failed = true)} />
 
 <nav class="bg-[#103a30] text-white">
   <div
@@ -36,20 +41,31 @@
     <div>
       <h1 class="uppercase font-semibold text-2xl">škoda surfers</h1>
     </div>
-    <div class="flex flex-row gap-6">
-      <button
-        on:click={() => (closed = false)}
-        class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500"
-      >
-        Přihlásit
-      </button>
-      <button
-        on:click={() => (closed2 = false)}
-        class="text-lg text-black rounded-3xl bg-emerald-300 px-3 py-1 hover:bg-emerald-200 duration-500 shadow-none hover:shadow-md hover:shadow-emerald-700"
-      >
-        Registrovat
-      </button>
-    </div>
+    {#if !data.user}
+      <div class="flex flex-row gap-6">
+        <button
+          on:click={() => (closed = false)}
+          class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500"
+        >
+          Přihlásit
+        </button>
+        <button
+          on:click={() => (closed2 = false)}
+          class="text-lg text-black rounded-3xl bg-emerald-300 px-3 py-1 hover:bg-emerald-200 duration-500 shadow-none hover:shadow-md hover:shadow-emerald-700"
+        >
+          Registrovat
+        </button>
+      </div>
+    {:else}
+      <div class="flex flex-row items-center bg-emerald-900 rounded-3xl">
+        <p class="pl-6 pr-4 text-lg">{data.user.name}</p>
+        <button
+                on:click={() => {}}
+                class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500">
+          Odhlásit
+        </button>
+      </div>
+    {/if}
   </div>
 </nav>
 <body class="bg-[#f3f3f3]">
