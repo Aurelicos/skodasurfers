@@ -1,13 +1,12 @@
 <script lang="ts">
   import "../app.postcss";
-
+  import { Toaster } from "svelte-french-toast";
   import {onDestroy, onMount} from "svelte";
   import { initFirebase } from "$lib/client/firebase";
   import ModalLogin from "$lib/components/ModalLogin.svelte";
   import ModalSignUp from "$lib/components/ModalSignUp.svelte";
 
   onMount(initFirebase);
-  import { Toaster } from "svelte-french-toast";
 
   let closed:boolean = true;
   let closed2:boolean = true;
@@ -22,7 +21,9 @@
 
   onDestroy(unsubscribe);
 </script>
+
 <Toaster />
+
 <ModalLogin closed={closed} on:close={() => (closed = true)} on:register={() => {closed2 = false, closed = true}} />
 <ModalSignUp closed={closed2} on:close={() => (closed2 = true)} on:login={() => {closed = false, closed2 = true}} />
 
@@ -52,7 +53,7 @@
 <body class="bg-[#f3f3f3]">
   <slot />
 </body>
-<footer class="bg-[#103a30] py-14 mt-32">
+<footer class="bg-[#103a30] py-14">
   <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
     <span class="text-sm text-white sm:text-center">© 2023 <a href="https://www.ssps.cz/" class="hover:underline">SSPŠ™</a>. All Rights Reserved.
   </span>

@@ -21,12 +21,10 @@
 
     let closedOnButton = "true";
 
-    // Function to update the store value
     function updateStoreValue() {
         exportedValue.set(closedOnButton);
     }
 
-    // Call the update function onMount
     onMount(updateStoreValue);
 </script>
 
@@ -53,9 +51,12 @@
         </svg>
     </a>
 </section>
-<section id="game" class="h-screen mt-96">
-    <div class="h-full w-full">
-        <h1 class="text-8xl flex h-full items-center justify-center">hra</h1>
+<section id="game" class="h-screen mt-52 flex justify-evenly mb-12">
+    <div class="h-full w-4/5 bg-black mx-12">
+ 
+    </div>
+    <div class="h-full w-1/5 bg-red-600 mr-12">
+    
     </div>
 </section>
 

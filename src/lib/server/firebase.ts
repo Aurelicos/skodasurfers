@@ -51,3 +51,27 @@ export async function addDataToDB(token: string, name: string) {
     }
     return { success: true, message: null };
 }
+
+export async function uploadScoreAndMoney(token: string) {
+    const decodedToken = await decodeToken(token);
+    if (!decodedToken) {
+        return { success: false, message: "Invalid token" }
+    };
+    const uid = decodedToken.uid;
+}
+
+export async function getData(token: string) {
+    const decodedToken = await decodeToken(token);
+    if (!decodedToken) {
+        return { success: false, message: "Invalid token" }
+    };
+    const uid = decodedToken.uid;
+    const db = admin.firestore();
+    const userRef = db.collection('users').doc(uid);
+    const data = (await userRef.get()).data() ?? {};
+    if (!data.score || !data.money || !data.cars) {
+        return { success: false, message: "Missing values!"}
+    } else {
+        return {success: true, message: null, data}
+    }
+}

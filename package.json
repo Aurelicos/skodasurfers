@@ -24,8 +24,10 @@
   },
   "type": "module",
   "dependencies": {
+    "@types/cookie": "^0.5.2",
     "@types/lodash": "^4.14.199",
     "@types/three": "^0.156.0",
+    "cookie": "^0.5.0",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.10.1",
     "lodash": "^4.17.21",
