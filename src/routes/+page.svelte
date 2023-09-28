@@ -30,11 +30,13 @@
         };
     });
 
-    let closedOnButton = "true";
-
-    function updateStoreValue() {
-        exportedValue.set(closedOnButton);
+    function updateStoreValue(closed: string) {
+        if (!data.user) {
+            exportedValue.set(closed);
+        }
     }
+
+    onMount(() => {updateStoreValue("true")});
 
     let currentScore = 0;
     let gameOver = false;
