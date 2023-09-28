@@ -1,14 +1,14 @@
 import { SESSION_COOKIE_NAME } from "$lib/constants";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from './$types';
-import { addDataToDB, getData } from "$lib/server/firebase";
+import { addDataToDB } from "$lib/server/firebase";
 
 export const load: PageServerLoad = (event) => {
     const user = event.locals.user;
-    if (!user) return
-
-    getData(user.token)
-    return {user}
+    if (!user) return;
+    return {
+        user
+    }
 }
 
 export const actions: Actions = {

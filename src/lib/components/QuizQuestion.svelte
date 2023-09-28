@@ -33,7 +33,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-        class="main fixed w-full h-screen top-0 bg-black bg-opacity-40 z-50 {closedQuiz
+        class="main fixed w-full h-screen top-0 bg-black bg-opacity-40 z-50 {!closedQuiz
         ? 'hidden'
         : 'flex'} justify-center items-center"
         on:click={(e) => {
