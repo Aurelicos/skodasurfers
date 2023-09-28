@@ -12,12 +12,6 @@
 
   onMount(initFirebase);
 
-  let closed:boolean = true;
-  let closed2:boolean = true;
-  let closed3:boolean = true;
-  let failed:boolean = false;
-  let correct:boolean = false;
-
   onMount(() => {
     const handleKeydown = (event: any) => {
       if (event.key === "ArrowUp" || event.key === "ArrowDown") {
@@ -54,13 +48,21 @@
 
 <Toaster />
 
-<ModalLogin closed={closed} on:close={() => (closed = true)} on:register={() => {closed2 = false, closed = true}} />
-<ModalSignUp closed={closed2} on:close={() => (closed2 = true)} on:login={() => {closed = false, closed2 = true}} />
-<QuizQuestion closed={closed3} on:close={() => (closed3 = true)} on:correct={() => {closed3 = true, correct = true}} on:failed={() => {closed3 = true, failed = true}} />
+<ModalLogin
+  {closed}
+  on:close={() => (closed = true)}
+  on:register={() => {
+    (closed2 = false), (closed = true);
+  }}
+/>
+<ModalSignUp
+  closed={closed2}
+  on:close={() => (closed2 = true)}
+  on:login={() => {
+    (closed = false), (closed2 = true);
+  }}
+/>
 
-<button on:click={() => (closed3 = false)}>hey</button>
-{failed}
-{correct}
 <nav class="bg-[#103a30] text-white">
   <div
     class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4"
@@ -68,26 +70,17 @@
     <div>
       <h1 class="uppercase font-semibold text-2xl">škoda surfers</h1>
     </div>
-    {#if data.user}
-      <div class="flex flex-row items-center bg-emerald-900 rounded-3xl">
-        <p class="pl-6 pr-4 text-lg">{data.user.name}</p>
-        <button
-                on:click={() => {}}
-                class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500">
-          Odhlásit
-        </button>
-      </div>
-    {:else}
+    {#if !data.user}
       <div class="flex flex-row gap-6">
         <button
-                on:click={() => (closed = false)}
-                class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500"
+          on:click={() => (closed = false)}
+          class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500"
         >
           Přihlásit
         </button>
         <button
-                on:click={() => (closed2 = false)}
-                class="text-lg text-black rounded-3xl bg-emerald-300 px-3 py-1 hover:bg-emerald-200 duration-500 shadow-none hover:shadow-md hover:shadow-emerald-700"
+          on:click={() => (closed2 = false)}
+          class="text-lg text-black rounded-3xl bg-emerald-300 px-3 py-1 hover:bg-emerald-200 duration-500 shadow-none hover:shadow-md hover:shadow-emerald-700"
         >
           Registrovat
         </button>

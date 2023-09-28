@@ -36,7 +36,9 @@
         }
     }
 
-    onMount(() => {updateStoreValue("true")});
+    onMount(() => {
+        updateStoreValue("true");
+    });
 
     let currentScore = 0;
     let gameOver = false;
@@ -90,7 +92,7 @@
             </p>
             <a
                 on:click={() => {
-                    (closedOnButton = "false"), updateStoreValue();
+                    updateStoreValue("false");
                 }}
                 href="/#game"
                 class="text-3xl text-white rounded-[3rem] bg-[#103a30] px-8 py-4 hover:bg-emerald-800 duration-500"
