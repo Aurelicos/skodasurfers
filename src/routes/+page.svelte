@@ -1,6 +1,7 @@
 <script lang="ts">
     import CarModel from "$lib/components/CarModel.svelte";
     import { onMount } from "svelte";
+    import { exportedValue } from '$lib/store';
 
     let rotateModel: any;
     let scrollY: any;
@@ -17,8 +18,6 @@
             window.removeEventListener("wheel", handleScroll);
         };
     });
-      import { onMount } from 'svelte';
-    import { exportedValue } from '$lib/store';
 
     let closedOnButton = "true";
 
