@@ -7,7 +7,7 @@
   import ModalSignUp from "$lib/components/ModalSignUp.svelte";
 
   onMount(initFirebase);
-  import { Toaster } from 'svelte-french-toast';
+  import { Toaster } from "svelte-french-toast";
 
   let closed = true;
 
@@ -46,22 +46,30 @@
   <slot />
 </body>
 <footer class="bg-[#103a30] py-14 mt-32">
-  <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-    <span class="text-sm text-white sm:text-center">© 2023 <a href="https://flowbite.com/" class="hover:underline">SSPŠ™</a>. All Rights Reserved.
-  </span>
-    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0 gap-6">
+  <div
+    class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
+  >
+    <span class="text-sm text-white sm:text-center"
+      >© 2023 <a href="https://flowbite.com/" class="hover:underline">SSPŠ™</a>.
+      All Rights Reserved.
+    </span>
+    <ul
+      class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0 gap-6"
+    >
       <li>
-        <a href="#" class="hover:underline">Škoda</a>
+        <a href="/" class="hover:underline">Škoda</a>
       </li>
       <li>
-        <a href="#" class="hover:underline">SSPŠ</a>
+        <a href="/" class="hover:underline">SSPŠ</a>
       </li>
-      <div class="inline-block h-[40px] min-h-[1em] w-0.5 self-stretch bg-neutral-100 opacity-100"></div>
+      <div
+        class="inline-block h-[40px] min-h-[1em] w-0.5 self-stretch bg-neutral-100 opacity-100"
+      />
       <li>
-        <a href="#" class="hover:underline">Hra</a>
+        <a href="/" class="hover:underline">Hra</a>
       </li>
       <li>
-        <a href="#" class="hover:underline">Nahoru</a>
+        <a href="/" class="hover:underline">Nahoru</a>
       </li>
     </ul>
   </div>
