@@ -83,11 +83,14 @@
         };
         animate();
 
-        rotate = (deltaY: number) => {
-            if (wrapper) {
-                rotationY.update((v) => v + deltaY * 0.004);
-            }
-        };
+rotate = (deltaY: number) => {
+    const maxDeltaY = 10; // set the maximum value of deltaY
+    if (wrapper) {
+        const newRotationY = $rotationY + deltaY * 0.004;
+        const clampedRotationY = Math.min(newRotationY, maxDeltaY); // clamp the value of newRotationY to maxDeltaY
+        rotationY.set(clampedRotationY);
+    }
+};
 
         return () => {
             controls.dispose();
