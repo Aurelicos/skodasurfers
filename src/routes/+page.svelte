@@ -5,7 +5,7 @@
     import Scene from "./scene.svelte";
     import type { PageData } from "./$types";
     import { invalidateAll } from "$app/navigation";
-    import { gameControl } from "./store";
+    import { gameControl, pausedStore } from "./store";
     import toast from "svelte-french-toast";
     import QuizQuestion from "$lib/components/QuizQuestion.svelte";
 
@@ -87,29 +87,37 @@
     }
     $: money = currentScore * 651;
 
-    $: if (currentScore % 15 === 0 && currentScore !== 0) {
+    $: if (currentScore % 25 === 0 && currentScore !== 0) {
         toast.success("You have reached a new level!");
         closed = false;
-        correct ? (currentScore += 10) : (currentScore += 1);
+        pausedStore.set(true);
     }
 
     let closed = true;
     let correct = false;
     let failed = false;
 
-    let paused = false;
+    function handleUserResponse() {
+        if (closed) {
+            pausedStore.set(false);
+            correct ? (currentScore += 10) : (currentScore += 1);
+        }
+    }
 </script>
 
 <svelte:window bind:scrollY />
 
 <QuizQuestion
     {closed}
-    on:close={() => (closed = true)}
+    on:close={() => {
+        closed = true;
+        handleUserResponse();
+    }}
     on:correct={() => {
-        (closed = true), (correct = true);
+        (closed = true), (correct = true), handleUserResponse();
     }}
     on:failed={() => {
-        (closed = true), (failed = true);
+        (closed = true), (failed = true), handleUserResponse();
     }}
 />
 
@@ -170,7 +178,6 @@
         <Scene
             on:score={(event) => (currentScore = event.detail)}
             on:gameOver={(e) => (gameOver = e.detail)}
-            {paused}
         />
     </div>
     <div

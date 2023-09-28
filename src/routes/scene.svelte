@@ -2,7 +2,7 @@
     import { createEventDispatcher, onMount } from "svelte";
     import * as THREE from "three";
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-    import { gameControl } from "./store";
+    import { gameControl, pausedStore } from "./store";
 
     const dispatch = createEventDispatcher();
 
@@ -12,13 +12,12 @@
         playerLifeCount = 1,
         gameOver = false;
 
-    export let paused = false;
+    let paused = false;
 
-    let isPaused = false;
-    $: isPaused = paused;
+    $: paused = $pausedStore;
 
     export function togglePause() {
-        isPaused = !isPaused;
+        paused = !paused;
     }
 
     $: dispatch("score", score);
@@ -384,7 +383,7 @@
         ];
 
         setInterval(function () {
-            if (!gameOver) {
+            if (!gameOver && !paused) {
                 score++;
                 updateGameSpeed(score);
             }
@@ -477,7 +476,7 @@
 
         function animate() {
             if (!gameOver) {
-                if (!isPaused) {
+                if (!paused) {
                     gameLogic();
                     renderer.render(scene, camera);
                 }
@@ -490,7 +489,7 @@
 
         window.addEventListener("keydown", function (e) {
             if (e.key === "p") {
-                isPaused = !isPaused;
+                paused = !paused;
             }
         });
     });
