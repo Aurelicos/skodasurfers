@@ -53,7 +53,7 @@
                     );
                     const user = userCredential.user;
                     formData.set("token", await user.getIdToken());
-                    const response = await fetch(`${this.action}?/signup`, {
+                    const response = await fetch(`/?/signup`, {
                         method: "POST",
                         body: formData,
                     });

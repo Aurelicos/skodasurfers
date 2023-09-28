@@ -102,7 +102,7 @@
                     } = data;
                     formData.set("token", await user.getIdToken());
 
-                    const response = await fetch(`${this.action}?/login`, {
+                    const response = await fetch(`/?/login`, {
                         method: "POST",
                         body: formData,
                     });

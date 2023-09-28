@@ -49,7 +49,7 @@
         const score = currentScore;
         formData.append("score", score.toString());
         formData.append("money", money.toString());
-        const response = await fetch(`${this.action}?/saveData`, {
+        const response = await fetch(`/?/saveData`, {
             method: "POST",
             body: formData,
         });
