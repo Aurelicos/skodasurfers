@@ -1,23 +1,25 @@
 <script lang="ts">
   import "../app.postcss";
   import { Toaster } from "svelte-french-toast";
-  import {onDestroy, onMount} from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { initFirebase } from "$lib/client/firebase";
   import ModalLogin from "$lib/components/ModalLogin.svelte";
   import ModalSignUp from "$lib/components/ModalSignUp.svelte";
 
   onMount(initFirebase);
 
-  let closed:boolean = true;
-  let closed2:boolean = true;
-  let closed3:boolean = true;
-  let failed:boolean = false;
+  let closed: boolean = true;
+  let closed2: boolean = true;
+  let closed3: boolean = true;
+  let failed: boolean = false;
 
   export let data: PageData;
 
-  import { exportedValue } from '$lib/stores/store';
+  import { exportedValue } from "$lib/stores/store";
   import QuizQuestion from "$lib/components/QuizQuestion.svelte";
-  import type {PageData} from "./$types";
+  import type { PageData } from "./$types";
+  import { invalidateAll } from "$app/navigation";
+  import { getAuth, signOut } from "firebase/auth";
 
   const unsubscribe = exportedValue.subscribe((value) => {
     if (value === "false") {
@@ -26,13 +28,37 @@
   });
 
   onDestroy(unsubscribe);
+
+  const logout = async () => {
+    const firebaseAuth = getAuth();
+    await signOut(firebaseAuth);
+    await fetch("/logout", { method: "POST" });
+    await invalidateAll();
+  };
 </script>
 
 <Toaster />
 
-<ModalLogin closed={closed} on:close={() => (closed = true)} on:register={() => {closed2 = false, closed = true}} />
-<ModalSignUp closed={closed2} on:close={() => (closed2 = true)} on:login={() => {closed = false, closed2 = true}} />
-<QuizQuestion closed={closed3} on:close={() => (closed3 = true)} on:failed={() => (failed = true)} />
+<ModalLogin
+  {closed}
+  on:close={() => (closed = true)}
+  on:register={() => {
+    (closed2 = false), (closed = true);
+  }}
+/>
+<ModalSignUp
+  closed={closed2}
+  on:close={() => (closed2 = true)}
+  on:login={() => {
+    (closed = false), (closed2 = true);
+  }}
+/>
+<QuizQuestion
+  closed={closed3}
+  failed={failed}
+  on:close={() => (closed3 = true)}
+  on:failed={() => (failed = true)}
+/>
 
 <nav class="bg-[#103a30] text-white">
   <div
@@ -60,8 +86,9 @@
       <div class="flex flex-row items-center bg-emerald-900 rounded-3xl">
         <p class="pl-6 pr-4 text-lg">{data.user.name}</p>
         <button
-                on:click={() => {}}
-                class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500">
+          on:click={logout}
+          class="text-lg rounded-3xl border-2 border-emerald-300 bg-emerald-700 px-3 py-1 hover:bg-emerald-300 hover:text-black duration-500"
+        >
           Odhlásit
         </button>
       </div>
@@ -72,17 +99,31 @@
   <slot />
 </body>
 <footer class="bg-[#103a30] py-14">
-  <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-    <span class="text-sm text-white sm:text-center">© 2023 <a href="https://www.ssps.cz/" class="hover:underline">SSPŠ™</a>. All Rights Reserved.
-  </span>
-    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0 gap-6">
+  <div
+    class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
+  >
+    <span class="text-sm text-white sm:text-center"
+      >© 2023 <a href="https://www.ssps.cz/" class="hover:underline">SSPŠ™</a>.
+      All Rights Reserved.
+    </span>
+    <ul
+      class="flex flex-wrap items-center mt-3 text-sm font-medium text-white sm:mt-0 gap-6"
+    >
       <li>
-        <a target="_blank" href="https://www.skoda-auto.com/" class="hover:underline">Škoda</a>
+        <a
+          target="_blank"
+          href="https://www.skoda-auto.com/"
+          class="hover:underline">Škoda</a
+        >
       </li>
       <li>
-        <a target="_blank" href="https://www.ssps.cz/" class="hover:underline">SSPŠ</a>
+        <a target="_blank" href="https://www.ssps.cz/" class="hover:underline"
+          >SSPŠ</a
+        >
       </li>
-      <div class="inline-block h-[35px] min-h-[1em] w-0.5 self-stretch bg-neutral-100 opacity-100"></div>
+      <div
+        class="inline-block h-[35px] min-h-[1em] w-0.5 self-stretch bg-neutral-100 opacity-100"
+      />
       <li>
         <a href="/#game" class="hover:underline">Hra</a>
       </li>

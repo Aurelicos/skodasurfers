@@ -1,11 +1,8 @@
-import type {PageServerLoad} from "./$types";
-import {getData} from "$lib/server/firebase";
+import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = (event) => {
+export const load: PageServerLoad = (event: any) => {
     const user = event.locals.user;
     if (!user) return
 
-    getData(user.token)
-    return {user}
+    return { user }
 }
-
