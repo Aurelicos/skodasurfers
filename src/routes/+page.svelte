@@ -7,6 +7,7 @@
     import { invalidateAll } from "$app/navigation";
     import { gameControl } from "./store";
     import toast from "svelte-french-toast";
+    import QuizQuestion from "$lib/components/QuizQuestion.svelte";
 
     let rotateModel: any;
     let scrollY: any;
@@ -64,7 +65,7 @@
     async function handleSubmit(this: HTMLFormElement, event: Event) {
         if (!data.user) {
             restartGame();
-            gameOver = false
+            gameOver = false;
             invalidateAll();
             return;
         }
@@ -85,9 +86,32 @@
         gameOver = false;
     }
     $: money = currentScore * 651;
+
+    $: if (currentScore % 15 === 0 && currentScore !== 0) {
+        toast.success("You have reached a new level!");
+        closed = false;
+        correct ? (currentScore += 10) : (currentScore += 1);
+    }
+
+    let closed = true;
+    let correct = false;
+    let failed = false;
+
+    let paused = false;
 </script>
 
 <svelte:window bind:scrollY />
+
+<QuizQuestion
+    {closed}
+    on:close={() => (closed = true)}
+    on:correct={() => {
+        (closed = true), (correct = true);
+    }}
+    on:failed={() => {
+        (closed = true), (failed = true);
+    }}
+/>
 
 {#if gameOver}
     <form
@@ -146,6 +170,7 @@
         <Scene
             on:score={(event) => (currentScore = event.detail)}
             on:gameOver={(e) => (gameOver = e.detail)}
+            {paused}
         />
     </div>
     <div

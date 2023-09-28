@@ -12,6 +12,15 @@
         playerLifeCount = 1,
         gameOver = false;
 
+    export let paused = false;
+
+    let isPaused = false;
+    $: isPaused = paused;
+
+    export function togglePause() {
+        isPaused = !isPaused;
+    }
+
     $: dispatch("score", score);
     $: dispatch("gameOver", gameOver);
 
@@ -468,14 +477,22 @@
 
         function animate() {
             if (!gameOver) {
+                if (!isPaused) {
+                    gameLogic();
+                    renderer.render(scene, camera);
+                }
                 requestAnimationFrame(animate);
-                gameLogic();
-                renderer.render(scene, camera);
             }
         }
 
         spawnGround(groundModelPath);
         animate();
+
+        window.addEventListener("keydown", function (e) {
+            if (e.key === "p") {
+                isPaused = !isPaused;
+            }
+        });
     });
 
     $: if ($gameControl.restart) {
