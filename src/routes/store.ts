@@ -4,3 +4,5 @@ export const gameControl = writable({
 });
 
 export const pausedStore = writable(false);
+
+export const carModelStore = writable('./Car.glb');

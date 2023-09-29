@@ -5,7 +5,7 @@
     import Scene from "./scene.svelte";
     import type { PageData } from "./$types";
     import { invalidateAll } from "$app/navigation";
-    import { gameControl, pausedStore } from "./store";
+    import { gameControl, pausedStore, carModelStore } from "./store";
     import toast from "svelte-french-toast";
     import QuizQuestion from "$lib/components/QuizQuestion.svelte";
 
@@ -13,6 +13,16 @@
     let scrollY: any;
     let width;
     export let data: PageData;
+
+    $: {
+        if (data.gameData && data.gameData.cars.includes("car3")) {
+            carModelStore.set("./Car3.glb");
+        } else if (data.gameData && data.gameData.cars.includes("car2")) {
+            carModelStore.set("./Car2.glb");
+        } else {
+            carModelStore.set("./Car.glb");
+        }
+    }
 
     function restartGame() {
         gameControl.update((value) => ({ ...value, restart: !value.restart }));

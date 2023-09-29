@@ -2,7 +2,7 @@
     import { createEventDispatcher, onMount } from "svelte";
     import * as THREE from "three";
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-    import { gameControl, pausedStore } from "./store";
+    import { gameControl, pausedStore, carModelStore } from "./store";
 
     const dispatch = createEventDispatcher();
 
@@ -13,6 +13,8 @@
         gameOver = false;
 
     let paused = false;
+    let carModelPath = $carModelStore;
+    $: carModelPath = $carModelStore;
 
     $: paused = $pausedStore;
 
@@ -26,7 +28,7 @@
     onMount(() => {
         const treeModelPaths = ["./tree11.glb", "./tree12.glb", "./tree13.glb"];
         const groundModelPath = "./Road5.glb";
-        const carModelPath = "./Car.glb";
+
         const propsModelPaths = [
             "./Prop1.glb",
             "./Prop2.glb",
@@ -265,6 +267,14 @@
                     playerCar.position.set(0, 1.1, 3);
                     playerCar.scale.set(0.4, 0.4, 0.4);
                     playerCar.rotation.y = -(Math.PI / 2);
+                    if (carModelPath === "./Car2.glb") {
+                        playerCar.rotation.y = Math.PI /2;
+                        playerCar.scale.set(0.8, 0.8, 0.8);
+                    }
+                    if (carModelPath === "./Car3.glb") {
+                        playerCar.rotation.y = Math.PI /2;
+                        playerCar.scale.set(0.07, 0.07, 0.07);
+                    }
 
                     scene.add(playerCar);
                 })
@@ -353,7 +363,6 @@
 
         let isMoving = false;
         let targetLane = 0;
-        const laneSwitchDuration = 500;
 
         window.onkeydown = function (event) {
             if (!isMoving) {
