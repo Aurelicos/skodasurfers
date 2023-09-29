@@ -95,7 +95,6 @@ export const actions: Actions = {
         }
         const sorted = names.sort();
         const car = sorted[0];
-        console.log(car);
         const success = await buyCar(user.uid, car);
 
         if (!success.success) {
