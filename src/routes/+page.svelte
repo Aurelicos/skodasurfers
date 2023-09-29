@@ -179,9 +179,9 @@
         </svg>
     </a>
 </section>
-<section id="game" class="h-screen mt-52 flex justify-evenly mb-12">
+<section id="game" class="h-screen mt-52 flex items-center justify-evenly mb-12">
     <div
-        class="h-full w-4/5 mx-12 flex justify-center items-center"
+        class="h-[85vh] w-4/5 mx-12 flex justify-center items-center"
         bind:clientWidth={width}
         id="gameContainer"
     >
@@ -191,43 +191,70 @@
         />
     </div>
     <div
-        class="h-full w-1/5 bg-slate-300 mr-12 rounded-3xl py-8 px-8 flex justify-center items-center flex-col"
+        class="h-[83vh] w-1/5 bg-zinc-200 mr-12 shadow-2xl rounded-3xl pb-16 pt-8 px-8 flex items-center flex-col"
     >
         {#if data.user}
-            <h1>Alltime score: {data.gameData.score}</h1>
-            <h1>Current Score: {currentScore}</h1>
-            <h2>Money: {data.gameData.money + money}</h2>
-            <form method="POST" on:submit={handleCar} class="flex flex-col">
-                <p>cars:</p>
-                <div>
-                    <input type="checkbox" name="car1" checked disabled /><label
-                        for="car1">auto1 - 2 000 000 Kč</label
-                    >
+            <div class="flex flex-col items-center mt-3">
+                <h1 class="text-lg text-zinc-600">Current Score: </h1>
+                <h1 class="text-emerald-900 text-5xl mb-4">{currentScore}</h1>
+                <h1 class="text-lg text-zinc-500">All time score: <span class="text-zinc-600">{data.gameData.score}</span></h1>
+            </div>
+            <hr class="h-[2px] -px-8 bg-gray-900 w-full my-5">
+            <form method="POST" on:submit={handleCar} class="flex flex-col w-full px-8 mt-4 gap-2">
+                <div class="flex flex-row">
+                    <p class="font-semibold text-xl text-zinc-700 -ml-4 mb-3">Auta:</p>
+                    <h2 class="text-gray-600 underline font-semibold text-lg flex justify-end w-full mb-5"><span class="text-green-800">{data.gameData.money + money}</span>$</h2>
+                </div>
+                <div class="">
+                    <input type="checkbox" id="car1" value="" class="hidden peer" disabled checked>
+                    <label for="car1" class="inline-flex items-center justify-between w-full px-5 py-3 text-gray-600 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:bg-blue-200 hover:text-gray-600 peer-checked:text-gray-600 hover:bg-gray-50">
+                        <div class="block">
+                            <div class="w-full text-lg font-semibold">Gay Car</div>
+                            <div class="w-full text-sm">Slow and inefficient. Make your way to better cars.</div>
+                            <div class="text-lg mt-2 text-green-700">1 000 000$</div>
+                        </div>
+                    </label>
                 </div>
                 <div>
                     <input
                         type="checkbox"
                         name="car2"
+                        class="hidden peer"
                         checked={data.gameData.cars.includes("car2")}
                         disabled={data.gameData.cars.includes("car2")}
-                    /><label for="car2">auto1 - 3 000 000 Kč</label>
+                    />
+                    <label class="inline-flex items-center justify-between w-full px-5 py-3 text-gray-600 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:bg-blue-200 hover:text-gray-600 peer-checked:text-gray-600 hover:bg-gray-50" for="car2">
+                        <div class="block">
+                            <div class="w-full text-lg font-semibold">Toyota</div>
+                            <div class="w-full text-sm">You a fart smella</div>
+                            <div class="text-lg mt-2 text-green-700">2 000 000$</div>
+                        </div>
+                    </label>
                 </div>
                 <div>
                     <input
                         type="checkbox"
                         name="car3"
+                        class="hidden peer"
                         checked={data.gameData.cars.includes("car3")}
                         disabled={data.gameData.cars.includes("car3")}
-                    /><label for="car3">auto1 - 4 000 000 Kč</label>
+                    />
+                    <label class="inline-flex items-center justify-between w-full px-5 py-3 text-gray-600 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:bg-blue-200 hover:text-gray-600 peer-checked:text-gray-600 hover:bg-gray-50" for="car3">
+                        <div class="block">
+                            <div class="w-full text-lg font-semibold">Nigga racer</div>
+                            <div class="w-full text-sm">Goood motherfuckin' theemmmmmm</div>
+                            <div class="text-lg mt-2 text-green-700">4 000 000$</div>
+                        </div>
+                    </label>
                 </div>
                 <button
                     type="submit"
-                    class="bg-green-600 px-10 py-4 rounded-lg hover:bg-green-800"
+                    class="text-2xl text-white rounded-[3rem] bg-[#103a30] px-6 py-3 hover:bg-emerald-800 duration-500 mt-8 mx-2"
                     >Buy Cars</button
                 >
             </form>
         {:else}
-            <h1>Pro zobrazení dat se musíte přihlásit</h1>
+            <h1 class="font-semibold text-32xl">Pro zobrazení dat se musíte přihlásit</h1>
         {/if}
     </div>
 </section>
