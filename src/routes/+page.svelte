@@ -191,7 +191,7 @@
         />
     </div>
     <div
-        class="h-[83vh] w-1/5 bg-zinc-200 mr-12 shadow-2xl rounded-3xl pb-16 pt-8 px-8 flex items-center flex-col"
+        class="h-[90vh] w-1/5 bg-zinc-200 mr-12 shadow-2xl rounded-3xl pb-16 pt-8 px-8 flex items-center flex-col"
     >
         {#if data.user}
             <div class="flex flex-col items-center mt-3">
